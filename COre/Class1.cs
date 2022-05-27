@@ -1,4 +1,4 @@
-﻿namespace COre;
+﻿namespace Core;
 public class Class1
 {
 
