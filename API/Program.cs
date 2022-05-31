@@ -21,11 +21,11 @@ builder.Services.AddDbContext<StoreContext>(x => x.UseSqlite(builder.Configurati
 builder.Services.AddCors(opt=>{
     opt.AddPolicy("CorsPolicy", policy =>
     {
-        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:7193/");
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
     });
 });
 var app = builder.Build();
-
+ 
 using(var scope = app.Services.CreateScope()){
     var services = scope.ServiceProvider;
     var loggetFactory = services.GetRequiredService<ILoggerFactory>();
@@ -47,10 +47,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
