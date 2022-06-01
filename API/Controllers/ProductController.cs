@@ -52,12 +52,12 @@ namespace API.Controllers
             return Ok(_mapper.Map<Product,ProductDto>(product));
         }
         [HttpGet("GetBrands")]
-        public async Task<ActionResult<List<Product>>> GetBrands()
+        public async Task<ActionResult<List<ProductBrand>>> GetBrands()
         {
             return Ok(await _brandRepo.ListAllAsync());
         }
         [HttpGet("GetTypes")]
-        public async Task<ActionResult<List<Product>>> GetTypes()
+        public async Task<ActionResult<List<ProductType>>> GetTypes()
         {
             return Ok(await _typeRepo.ListAllAsync());
         }
