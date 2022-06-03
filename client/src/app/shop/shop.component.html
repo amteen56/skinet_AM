@@ -2,17 +2,20 @@
   <div class="row">
     <section class="col-3">
       <h5 class="text-warning ml-3">Sort</h5>
-      <select class="custom-select mb-3">
-        <option selected>Aphabetical</option>
-        <option>Price: Low to High</option>
-        <option>Price: High to Low</option>
+      <select
+        class="custom-select mb-3"
+        (change)="onSorting($event.target.value)"
+      >
+        <option *ngFor="let option of sortOption" [value]="option.name">
+          {{ option.value }}
+        </option>
       </select>
       <h5 class="text-warning ml-3">Brands</h5>
       <ul class="list-group my-3">
         <li
           class="list-group-item"
           *ngFor="let brand of brands"
-          [class.active]="brand.id === this.brandIdSelected"
+          [class.active]="brand.id === this.ShopParam.brandId"
           [value]="brand.id"
           (click)="onBrandSelected(brand.id)"
         >
@@ -21,10 +24,13 @@
       </ul>
       <h5 class="text-warning ml-3">Types</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item" *ngFor="let type of types"
-        [class.active]="type.id === this.typeIdSelected"
-        [value]="type.id"
-        (click)="onTypeSelected(type.id)">
+        <li
+          class="list-group-item"
+          *ngFor="let type of types"
+          [class.active]="type.id === this.ShopParam.typeId"
+          [value]="type.id"
+          (click)="onTypeSelected(type.id)"
+        >
           {{ type.name }}
         </li>
       </ul>
@@ -32,20 +38,28 @@
 
     <section class="col-9">
       <div class="d-flex pd-2 justify-content-between align-items-center">
-        <header>
-          <span>
-            Showing <strong>10</strong> of <strong>15</strong> Results
-          </span>
-        </header>
+        <app-pagination-header
+          [totalCount]="this.totalCount"
+          [pageSize]="this.ShopParam.pageSize"
+          [pageNumber]="this.ShopParam.pageNumber"
+        >
+        </app-pagination-header>
+
         <div class="form-inline mt-2">
           <input
+            #search
+            (keyup.enter)="onSearch()"
             class="form-control mr-2"
             style="width: 300px"
             placeholder="Search"
             type="text"
           />
-          <button class="btn btn-outline-primary my-2">Search</button>
-          <button class="btn btn-outline-primary ml-2 my-2">Reset</button>
+          <button (click)="onSearch()" class="btn btn-outline-primary my-2">
+            Search
+          </button>
+          <button (click)="onReset()" class="btn btn-outline-primary ml-2 my-2">
+            Reset
+          </button>
         </div>
       </div>
 
@@ -53,6 +67,16 @@
         <div class="col-4 mb-4" *ngFor="let product of products">
           <app-product-item [product]="product"></app-product-item>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
+          [pageSize]="this.ShopParam.pageSize"
+          [totalCount]="totalCount"
+          [pageNumber]="this.ShopParam.pageNumber"
+          (pageChanged)="onPageChanged($event)"
+        >
+        </app-pager>
       </div>
     </section>
   </div>

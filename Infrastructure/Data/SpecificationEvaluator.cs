@@ -17,7 +17,7 @@ namespace Infrastructure.Data
                 query = query.OrderBy(sepc.OrderBy);
             }
              if(sepc.OrderByDesending != null){
-                query = query.OrderBy(sepc.OrderByDesending);
+                query = query.OrderByDescending(sepc.OrderByDesending);
             }
             if(sepc.IsPaginationEnabled){
                 query = query.Skip(sepc.Skip).Take(sepc.Take);

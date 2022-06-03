@@ -4,6 +4,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Sepcifications;
 using COre.DTO;
+using COre.Sepcifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,8 +37,8 @@ namespace API.Controllers
         public async Task<ActionResult<Pagination<Product>>> GetProducts([FromQuery]ProductSpecParams specParams)
         {
             var spec = new ProductWithBrandsAndTypesSpecifications(specParams);
-            var countspec = new ProductWithBrandsAndTypesSpecifications(specParams);
-            var totalItems = await _productRepo.CountAsync(spec);
+            var countspec = new ProductWithFiltersForCountSpecifications(specParams);
+            var totalItems = await _productRepo.CountAsync(countspec);
             var list = await _productRepo.ListAsync(spec);
 
             var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(list);
