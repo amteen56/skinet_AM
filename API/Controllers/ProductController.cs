@@ -5,9 +5,7 @@ using Core.Interfaces;
 using Core.Sepcifications;
 using COre.DTO;
 using COre.Sepcifications;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
