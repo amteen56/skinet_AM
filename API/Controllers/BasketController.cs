@@ -14,14 +14,12 @@ namespace API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _basketRepository;
-        private readonly IMapper _mapper;
-        public BasketController(IBasketRepository basketRepository, IMapper mapper)
+        public BasketController(IBasketRepository basketRepository)
         {
-            _mapper = mapper;
             _basketRepository = basketRepository;
         }
 
-        [HttpGet("GetBasketById")]
+        [HttpGet("basket")]
         public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
         {
             var basket = await _basketRepository.GetBasketAsync(id);
@@ -29,17 +27,15 @@ namespace API.Controllers
             return Ok(basket ?? new CustomerBasket(id));
         }
 
-        [HttpPost("UpdateBasket")]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
+        [HttpPost("basket")]
+        public async Task<ActionResult<CustomerBasket>> UpdateBasket([FromBody]CustomerBasket basket)
         {
-            var customerBasket = _mapper.Map<CustomerBasket>(basket);
-
-            var updatedBasket = await _basketRepository.UpdateBastetAsync(customerBasket);
+            var updatedBasket = await _basketRepository.UpdateBastetAsync(basket);
 
             return Ok(updatedBasket);
         }
 
-        [HttpDelete("DeleteBasketAsync")]
+        [HttpDelete("basket")]
         public async Task DeleteBasketAsync(string id)
         {
             await _basketRepository.DeleteBasketAsync(id);

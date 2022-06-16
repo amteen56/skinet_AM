@@ -20,15 +20,16 @@ namespace Infrastructure.Data
 
         public async Task<CustomerBasket> GetBasketAsync(string basketId)
         {
-            var data = await _database.StringGetAsync(basketId);
+              var data = await _database.StringGetAsync(basketId);
             return data.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(data);
         }
 
         public async Task<CustomerBasket> UpdateBastetAsync(CustomerBasket basket)
         {
-            var created = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket),TimeSpan.FromDays(30));
-            if(!created) return null;
-            else return await GetBasketAsync(basket.Id);
+            var created = await _database.StringSetAsync(basket.Id, JsonSerializer.Serialize(basket), 
+                TimeSpan.FromDays(30));
+            if (!created) return null;
+            return await GetBasketAsync(basket.Id);
         }
     }
 }

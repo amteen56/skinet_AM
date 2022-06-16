@@ -12,7 +12,7 @@ namespace COre.Entities
         }
 
         public string Id { get; set; } 
-        public List<BasketItem> BasketItem { get; set; } = new List<BasketItem>();
+        public List<BasketItem> items { get; set; } = new List<BasketItem>();
         
     }
 }
